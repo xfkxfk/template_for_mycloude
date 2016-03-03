@@ -1,0 +1,1 @@
+{"monitor_db":["null","wordpress"],"monitor_user":["root"],"log_normal":true,"log_intrusion":true,"log_slowquery":true,"log_alluser":true,"log_alldb":true,"sqli":["select.*from.*critical_database.*where.*id.*2"]}

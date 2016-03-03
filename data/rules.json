@@ -1,0 +1,1 @@
+{"version":201509260930,"rules":["union.*select.*information_schema.*","select.*concat.*floor.*rand.*","select.*benchmark.*md5","select.*from.*select.*sleep","select.*null.*concat.*case.*when.*then.*else"]}

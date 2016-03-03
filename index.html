@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>ODSA - 数据库安全专家</title>
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" media="screen" title="no title" charset="utf-8">
+  <link href="assets/css/master.css?ver=1" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/select2.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="assets/css/select2-bootstrap.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="assets/ui-select-master/dist/select.min.css" media="screen" title="no title" charset="utf-8">
+
+  <script src="bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
+  <script src="assets/js/moment.min.js" charset="utf-8"></script>
+
+  <script src="bower_components/angularjs/angular.min.js" charset="utf-8"></script>
+  <script src="bower_components/ui-router/release/angular-ui-router.min.js" charset="utf-8"></script>
+  <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js" charset="utf-8"></script>
+  <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" charset="utf-8"></script>
+  <script src="bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js" charset="utf-8"></script>
+  <script src="bower_components/jquery.easy-pie-chart/dist/angular.easypiechart.js" charset="utf-8"></script>
+  <script src="assets/js/select.min.js" charset="utf-8"></script>
+
+  <script src="bower_components/metisMenu/dist/metisMenu.min.js" charset="utf-8"></script>
+
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body style="padding-top: 50px">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/pages/dashboard">猫头鹰ODSA</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <a href="#/pages/dashboard">
+              <i class="fa fa-dashboard"></i> 控制台
+            </a>
+          </li>
+          <li>
+            <a href="#/pages/audit">
+              <i class="fa fa-legal"></i> 安全审计
+            </a>
+          </li>
+          <li>
+            <a href="#/pages/optimize">
+              <i class="fa fa-table"></i> 性能优化
+            </a>
+          </li>
+          <li>
+            <a href="#/pages/intrusion">
+              <i class="fa fa-bug"></i> 入侵检测
+            </a>
+          </li>
+          <li>
+            <a href="#/pages/settings">
+              <i class="fa fa-wrench"></i> 系统设置
+            </a>
+          </li>
+
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="http://www.changesec.com/doc.html" target="_blank">
+              <i class="fa fa-support"></i> 查看帮助
+            </a>
+          </li>
+          <li>
+            <a href="php/logout.php">
+              <i class="fa fa-user fa-fw"></i> 退出</i>
+            </a>
+            <!-- /.dropdown-user -->
+          </li>
+          <!-- /.dropdown -->
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+      <div ui-view>
+
+      </div>
+    </div>
+    <!-- /#page-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+  <div ng-include="'templates/partials/return-to-top.html'"></div>
+
+  <script src="bower_components/requirejs/require.js" data-main="assets/js/app" charset="utf-8"></script>
+</body>
+
+</html>

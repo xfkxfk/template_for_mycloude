@@ -1,0 +1,229 @@
+<div class="sk-circle" ng-if="loading">
+  <div class="sk-circle1 sk-child"></div>
+  <div class="sk-circle2 sk-child"></div>
+  <div class="sk-circle3 sk-child"></div>
+  <div class="sk-circle4 sk-child"></div>
+  <div class="sk-circle5 sk-child"></div>
+  <div class="sk-circle6 sk-child"></div>
+  <div class="sk-circle7 sk-child"></div>
+  <div class="sk-circle8 sk-child"></div>
+  <div class="sk-circle9 sk-child"></div>
+  <div class="sk-circle10 sk-child"></div>
+  <div class="sk-circle11 sk-child"></div>
+  <div class="sk-circle12 sk-child"></div>
+</div>
+
+<div class="container-fluid" ng-if="! loading">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="page-header">控制台</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-red">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-code fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{info.server_count}}</div>
+              <div><b>CMD_EXEC漏洞数量</b></div>
+            </div>
+          </div>
+        </div>
+        <a href="#/pages/allfields?field=server&amp;field_cn=服务器">
+          <div class="panel-footer">
+            <span class="pull-left">查看细节</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-yellow">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-database fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{info.db_count}}</div>
+              <div><b>SQL盲注漏洞数量</b></div>
+            </div>
+          </div>
+        </div>
+        <a href="#/pages/allfields?field=db&amp;field_cn=数据库">
+          <div class="panel-footer">
+            <span class="pull-left">查看细节</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-green">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-tasks fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{info.sql_count}}</div>
+              <div><b>SSRF漏洞数量</b></div>
+            </div>
+          </div>
+        </div>
+        <a href="#/pages/audit">
+          <div class="panel-footer">
+            <span class="pull-left">查看细节</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-support fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{info.uptime}}</div>
+              <div><b>XXE盲注漏洞数量</b></div>
+            </div>
+          </div>
+        </div>
+        <a href="#">
+          <div class="panel-footer">
+            <span class="pull-left">查看细节</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">数据库状态
+          <div class="pull-right">
+
+          </div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-condensed">
+            <thead>
+              <td>
+                #
+              </td>
+              <td>
+                时间
+              </td>
+              <td>
+                域名信息
+              </td>
+              <td>
+                IP地址
+              </td>
+              <td>
+               日志类型
+              </td>
+            </thead>
+            <tbody>
+              <tr ng-repeat="evt in info.recent_events">
+                <td>
+                  {{$index + 1}}
+                </td>
+                <td>
+                  {{evt.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}
+                </td>
+                <td>
+                  {{evt.server}}
+                </td>
+                <td>
+                  {{evt.db}}
+                </td>
+                <td>
+                  <span ng-repeat="tag in evt.tags">
+                    <span class="label label-danger" ng-if="tag == 'SQLi'">DNS Log</span>
+                    <span class="label label-warning" ng-if="tag == 'Slow'">HTTP Log</span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">系统状态</div>
+        <div class="panel-body">
+
+          <div class="col-xs-4">
+            <div class="easypiechart" easypiechart options="sysinfo.cpu_options" percent="sysinfo.cpu_percent">
+              <span class="percent">{{sysinfo.cpu_percent}}</span>
+            </div>
+            <label>CPU</label>
+          </div>
+
+          <div class="col-xs-4">
+            <div class="easypiechart" easypiechart options="sysinfo.mem_options" percent="sysinfo.mem_percent">
+              <span class="percent">{{sysinfo.mem_percent}}</span>
+            </div>
+            <label>内存</label>
+          </div>
+
+          <div class="col-xs-4">
+            <div class="easypiechart" easypiechart options="sysinfo.disk_options" percent="sysinfo.disk_percent">
+              <span class="percent">{{sysinfo.disk_percent}}</span>
+            </div>
+            <label>磁盘</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">软件信息</div>
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-xs-4">
+              <strong>软件版本</strong>
+            </div>
+            <div class="col-xs-8 text-left">
+              <span>{{info.version}}</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4">
+              <strong>规则库版本</strong>
+            </div>
+            <div class="col-xs-8 text-left">
+              <span>{{info.rulesversion}} <a href="javascript:" ng-click="checkUpdate()">{{statusString[updateStatus]}}</a></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

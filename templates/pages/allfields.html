@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="page-header">全部{{field_cn}}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table">
+        <thead>
+          <th>
+            #
+          </th>
+          <th>
+            {{field_cn}}
+          </th>
+          <th>
+
+          </th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in data">
+            <td>
+              {{$index + 1}}
+            </td>
+            <td>
+              <a href="#/pages/audit?search={{field}}:%22{{x}}%22">{{x}}</a>
+            </td>
+            <td>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

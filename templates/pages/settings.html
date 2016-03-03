@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="page-header">系统设置</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <form ng-submit="save()">
+        <div class="form-group">
+          <label class="control-label">选择要监控的数据库</label>
+          <ui-select multiple tagging tagging-label="自定义数据库名" ng-model="formData.monitor_db" ng-disabled="formData.log_alldb" theme="select2" style="width: 100%; display: block">
+            <ui-select-match placeholder="选择要监控的数据库">{{$item}}</ui-select-match>
+            <ui-select-choices repeat="db in all_dbs">
+              {{db}}
+            </ui-select-choices>
+          </ui-select>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="formData.log_alldb"> 监控全部数据库
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">要监控的用户名</label>
+          <ui-select multiple tagging tagging-label="自定义数据库名" ng-model="formData.monitor_user" ng-disabled="formData.log_alluser" theme="select2" style="width: 100%; display: block">
+            <ui-select-match placeholder="选择要监控的用户名">{{$item}}</ui-select-match>
+            <ui-select-choices repeat="db in all_users">
+              {{db}}
+            </ui-select-choices>
+          </ui-select>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="formData.log_alluser"> 监控全部用户
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">自定义规则</label>
+          <textarea type="text" class="form-control" ng-model="formData.sqli" rows="5" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">日志记录类型</label>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="formData.log_normal"> 记录普通查询语句
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="formData.log_slowquery"> 记录慢查询
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="formData.log_intrusion"> 记录入侵事件
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">保存</button>
+
+      </form>
+    </div>
+  </div>
+</div>

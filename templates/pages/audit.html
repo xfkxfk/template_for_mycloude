@@ -1,0 +1,171 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="page-header">{{title}}</h1>
+    </div>
+  </div>
+
+  <form class="form-horizontal" ng-submit="load(0)">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">操作类型</label>
+      <div class="col-sm-4">
+        <select class="form-control" ng-change="load(0)" ng-model="search.type" ng-options="idx as type for (idx, type) in types">
+        </select>
+      </div>
+
+      <label class="col-sm-2 control-label">查询语句</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" ng-model="search.query">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">数据库用户</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" ng-model="search.db_user">
+      </div>
+
+      <label class="col-sm-2 control-label">数据库</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" ng-model="search.db_name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">起始时间</label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </span>
+          <input type="text" mydatetimepicker class="form-control" ng-model="search.start_time" value="2015-08-10 00:00:00" style="border-radius: 0; awidth: 160px" />
+        </div>
+      </div>
+
+      <label class="col-sm-2 control-label">结束时间</label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </span>
+          <input type="text" mydatetimepicker class="form-control" ng-model="search.end_time" value="2015-08-10 00:00:00" style="border-radius: 0; awidth: 160px" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-4">
+        <button type="submit" class="btn btn-primary">查找</button>
+
+        <div class="btn-group">
+          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button"><i class="glyphicon glyphicon-export icon-share"></i>
+            数据导出
+            <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="javascript:" target="_blank" ng-href="{{export('csv')}}">CSV 格式</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="row" ng-if="result.data.length == 0">
+    <hr>
+    <p class="text-center">
+      找不到数据 :-( 请修改查询条件，或者修改查询时间范围 <br/>
+      提示: 服务器的时钟和本地可能不一致，请以服务器的为准
+    </p>
+    <hr>
+  </div>
+
+  <div class="row" ng-if="result.data.length > 0">
+    <div class="col-xs-12">
+      <hr>
+    </div>
+
+    <div class="col-sm-5 col-xs-12">
+
+      <span class="" style="margin-right: 0.5em; margin-top: 26px; display: block">
+        正在显示第
+        <strong>{{search.from + 1}} - {{end}}</strong> 条数据, 总共
+        <strong>{{result.total}}</strong> 条
+      </span>
+    </div>
+    <div class="col-sm-7 col-xs-12">
+      <div class="pull-right pagination">
+        <ul class="pagination pagination-sm" style="margin: 0px !important; vertical-align: middle;">
+          <li>
+            <a href="javascript:" ng-click="load(0)"><i class="fa fa-angle-double-left"></i></a>
+          </li>
+          <li ng-class="{ disabled: (search.from == 0) }">
+            <a href="javascript:" ng-click="load(search.from - search.size)"><i class="fa fa-angle-left"></i></a>
+          </li>
+          <li ng-repeat="page in pages" ng-click="load(page * search.size)" ng-class="{ active: (page == search.from / search.size) }">
+            <a href="javascript:void(0)">{{page + 1}}</a>
+          </li>
+          <li ng-class="{ disabled: (end == result.total) }">
+            <a href="javascript:" ng-click="load(search.from + search.size)"><i class="fa fa-angle-right"></i></a>
+          </li>
+          <li>
+            <a href="javascript:" ng-click="load(-1)">
+              <i class="fa fa-angle-double-right"></i></a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row" ng-hide="true">
+    <form class="form-inline" ng-submit="load(0)">
+      <div class="col-xs-12 col-sm-9">
+        <div class="form-group">
+
+
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+              {{search.query.name}}
+              <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="javascript:" ng-click="load(0, 0)">全部类型</a></li>
+              <li class="divider"></li>
+              <li ng-repeat="t in types" ng-if="$index > 0"><a href="javascript:" ng-click="load(0, $index)">{{t.name}}</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-include src="'templates/partials/datetimepicker.html'" include-replace></div>
+      </div>
+
+      <div class="col-xs-12 col-sm-3">
+        <div class="input-group pull-right">
+          <input type="text" class="form-control" placeholder="多个关键词空格隔开" ng-model="search.query.phrase">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <br/>
+  <div class="row"  ng-if="result.data.length > 0">
+    <div class="col-xs-12" ng-include="'templates/partials/sqltable.html'">
+    </div>
+
+    <div class="col-xs-12"  ng-if="result.data.length > 0">
+      <div class="pull-right pagination" ng-include="'templates/partials/pagination.html'">
+      </div>
+    </div>
+    <!-- /.col-xs-12 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->

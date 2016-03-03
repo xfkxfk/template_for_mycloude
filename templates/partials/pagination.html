@@ -1,0 +1,20 @@
+<div class="pull-right pagination">
+  <ul class="pagination pagination-sm">
+    <li>
+      <a href="javascript:" ng-click="load(0)"><i class="fa fa-angle-double-left"></i></a>
+    </li>
+    <li ng-class="{ disabled: (search.from == 0) }">
+      <a href="javascript:" ng-click="load(search.from - search.size)"><i class="fa fa-angle-left"></i></a>
+    </li>
+    <li ng-repeat="page in pages" ng-click="load(page * search.size)" ng-class="{ active: (page == search.from / search.size) }">
+      <a href="javascript:void(0)">{{page + 1}}</a>
+    </li>
+    <li ng-class="{ disabled: (end == result.total) }">
+      <a href="javascript:" ng-click="load(search.from + search.size)"><i class="fa fa-angle-right"></i></a>
+    </li>
+    <li>
+      <a href="javascript:" ng-click="load(-1)">
+        <i class="fa fa-angle-double-right"></i></a>
+    </li>
+  </ul>
+</div>

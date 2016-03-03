@@ -1,0 +1,119 @@
+#!/bin/bash
+
+set -e
+
+es=http://127.0.0.1:9200
+index=sniffer
+type=logs
+
+curl -XDELETE "$es/$index"; echo
+
+curl -XPOST "$es/$index" -d '
+{
+  "index": {
+    "analysis": {
+      "filter": {
+        "mynGram": {
+          "type": "nGram",
+          "min_gram": 1,
+          "max_gram": 10
+        }
+      },
+      "analyzer": {
+        "myAnalyzer": {
+          "type":      "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "mynGram"
+          ]
+        }
+      }
+    }
+  }
+}'; echo
+
+curl -XPUT "$es/$index/$type/_mapping" -d '
+{
+  "logs": {
+    "index_analyzer":  "myAnalyzer",
+    "search_analyzer": "standard",
+    "date_formats": [
+      "yyyy-MM-dd",
+      "dd-MM-yyyy"
+    ],
+    "properties": {
+      "timestamp": {
+        "type":     "date"
+      },
+      "duration": {
+        "type":     "integer"
+      },
+      "phrase": {
+        "type":     "string",
+        "analyzer": "standard"
+      },
+      "client": {
+        "type": "string",
+        "analyzer": "standard"
+      },
+      "server": {
+        "type": "string",
+        "analyzer": "standard"
+      },
+      "user": {
+        "type": "string",
+        "analyzer": "standard"
+      },
+      "db": {
+        "type": "string",
+        "analyzer": "standard"
+      },
+      "tags": {
+        "type": "string",
+        "analyzer": "standard"
+      }
+    }
+  }
+}'; echo
+
+dt=$(( ($(date +%s) - 24 * 3600) * 1000))
+
+curl "$es/$index/$type" -d '{
+  "server": "172.16.177.130",
+  "client": "172.16.177.1",
+  "phrase": "select * from mysql.user where name = 'admin' union select 1,2,3,4,5",
+  "timestamp": '$dt',
+  "duration":  0.022,
+  "db": "test",
+  "user": "root",
+  "tags": [
+     "SQLi"
+  ]
+}'; echo
+
+curl "$es/$index/$type" -d '{
+  "server": "172.16.177.130",
+  "client": "172.16.177.1",
+  "phrase": "select * from orders limit 100000, 20000",
+  "timestamp": '$dt',
+  "duration":  1.90,
+  "db": "test",
+  "user": "root",
+  "tags": [
+     "Slow"
+  ]
+}'; echo
+
+curl "$es/$index/$type" -d '{
+  "server": "172.16.177.130",
+  "client": "172.16.177.1",
+  "phrase": "select 1, 2, 3 from dual",
+  "timestamp": '$dt',
+  "duration":  0.022,
+  "db": "test",
+  "user": "root"
+}'; echo
+
+curl "$es/$index/_refresh"; echo
+curl "$es/$index/$type/_search?pretty"; echo
